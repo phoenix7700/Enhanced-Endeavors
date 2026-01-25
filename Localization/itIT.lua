@@ -1,0 +1,7 @@
+if (GAME_LOCALE or GetLocale()) ~= "itIT" then return end
+local _,shared = ...
+shared.L = {}
+local L = shared.L
+L["Your contribution"] = "Il tuo contributo"
+L["Top Contributors"] = "Miglior collaboratore"
+L["% of current"] = "% della corrente attuale"

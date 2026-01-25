@@ -1,0 +1,32 @@
+## Interface: 120000, 110107
+## Version: 1.0
+## IconTexture: Interface\AddOns\
+## Title: Enhanced Endeavors
+## Notes: Gives you more info about neighborhood endeavors.
+## Author: Phoenix7700
+## SavedVariables: EnhancedEndeavors_SavedData
+## Category-enUS: User Interface
+## Category-deDE: Benutzerinterface
+## Category-esES: Interfaz de usuario
+## Category-esMX: Interfaz de usuario
+## Category-frFR: Interface utilisateur
+## Category-itIT: Interfaccia utente
+## Category-koKR: 사용자 인터페이스
+## Category-ptBR: Interface do usuário
+## Category-ruRU: Интерфейс пользователя
+## Category-zhCN: 用户界面
+## Category-zhTW: 使用者介面
+
+Localization\enUS.lua
+Localization\deDE.lua
+Localization\esES.lua
+Localization\esMX.lua
+Localization\frFR.lua
+Localization\itIT.lua
+Localization\koKR.lua
+Localization\ptBR.lua
+Localization\ruRU.lua
+Localization\zhCN.lua
+Localization\zhTW.lua
+EnhancedEndeavors.lua
+
