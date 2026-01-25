@@ -1,6 +1,6 @@
 ## Interface: 120000, 110107
 ## Version: 1.0
-## IconTexture: Interface\AddOns\
+## IconTexture: Interface\AddOns\icon.blp
 ## Title: Enhanced Endeavors
 ## Notes: Gives you more info about neighborhood endeavors.
 ## Author: Phoenix7700
