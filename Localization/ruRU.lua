@@ -5,3 +5,5 @@ local L = shared.L
 L["Your contribution"] = "Ваш вклад"
 L["Top Contributors"] = "Лучший участник"
 L["% of current"] = "% от текущего значения"
+L["Loading..."] = "Загрузка..."
+L["Milestone"] = "Веха "

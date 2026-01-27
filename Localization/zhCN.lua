@@ -5,3 +5,5 @@ local L = shared.L
 L["Your contribution"] = "您的贡献"
 L["Top Contributors"] = "顶级贡献者"
 L["% of current"] = "当前百分比"
+L["Loading..."] = "正在加载..."
+L["Milestone"] = "里程碑 "

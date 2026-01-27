@@ -5,3 +5,5 @@ local L = shared.L
 L["Your contribution"] = "귀하의 기여"
 L["Top Contributors"] = "최고 기여자"
 L["% of current"] = "현재 비율"
+L["Loading..."] = "로드 중..."
+L["Milestone"] = "이정표 "

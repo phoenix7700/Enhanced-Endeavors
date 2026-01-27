@@ -1,21 +1,21 @@
-## Interface: 120000, 110107
-## Version: 1.0
-## IconTexture: Interface\AddOns\icon.blp
+## Interface: 120000
+## Version: 1.1
+## IconTexture: Interface\AddOns\EnhancedEndeavors\icon.blp
 ## Title: Enhanced Endeavors
 ## Notes: Gives you more info about neighborhood endeavors.
 ## Author: Phoenix7700
 ## SavedVariables: EnhancedEndeavors_SavedData
-## Category-enUS: User Interface
-## Category-deDE: Benutzerinterface
-## Category-esES: Interfaz de usuario
-## Category-esMX: Interfaz de usuario
-## Category-frFR: Interface utilisateur
-## Category-itIT: Interfaccia utente
-## Category-koKR: 사용자 인터페이스
-## Category-ptBR: Interface do usuário
-## Category-ruRU: Интерфейс пользователя
-## Category-zhCN: 用户界面
-## Category-zhTW: 使用者介面
+## Category: Housing
+## Category-deDE: Behausung
+## Category-esES: Hogares
+## Category-esMX: Viviendas
+## Category-frFR: Logis
+## Category-itIT: Alloggi
+## Category-koKR: 하우징
+## Category-ptBR: Moradia
+## Category-ruRU: Жилье
+## Category-zhCN: 住宅
+## Category-zhTW: 房屋
 
 Localization\enUS.lua
 Localization\deDE.lua
