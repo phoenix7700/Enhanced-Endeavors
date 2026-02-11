@@ -71,6 +71,7 @@ end
 
 function ehed:InitializeDashboard()
 		self:CreateFrames()
+        HousingDashboardFrame.HouseInfoContent.ContentFrame:HookScript("OnUpdate", function() ehed:UpdateCurrentProgressText() end)
 end
 function ehed:CreateFrames ()
     if not self.areFramesCreated and HousingDashboardFrame then
@@ -184,6 +185,8 @@ function ehed:CreateFrames ()
             isFrame.InitiativeTimer:SetPoint("TOPRIGHT", isFrame,"TOPRIGHT", 25,-135)
             isFrame.InitiativeName:SetPoint("TOPLEFT", isFrame, "TOPLEFT", 25, -2)
             isFrame.ProgressBar:SetPoint("TOP", isFrame.InitiativeDescription, "BOTTOM", 0, -20)
+            isFrame.NeighborhoodGroupText:SetPoint("TOP", isFrame.InitiativeDescription, "BOTTOM", 5, -58)
+            pFrame.TextContainer.ProgressText:Hide()
             pFrame:SetPoint("CENTER", isFrame, "CENTER",0,0)
             self.areFramesCreated = true
             self:UpdateCurrentProgressText()
@@ -197,7 +200,7 @@ function ehed:UpdateCurrentProgressText()
         local data = C_NeighborhoodInitiative.GetNeighborhoodInitiativeInfo()
         self.lastGoodView = data.neighborhoodGUID
         self.hasLastGoodView = true
-        local currprogress = data.currentProgress * 100
+        local currprogress = HousingDashboardFrame.HouseInfoContent.ContentFrame.InitiativesFrame.InitiativeSetFrame.ProgressBar:GetValue() * 100
         local maxprogress = data.progressRequired * 100
         
         local contribution = data.playerTotalContribution *100
