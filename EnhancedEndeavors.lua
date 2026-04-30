@@ -64,17 +64,19 @@ function ehed:UpdateFrames()
     end
     if HouseFinderFrame and HouseFinderFrame:IsVisible() then
             self:UpdateHouseFinderInitiatives()
-        end
+    end
 end
 
 -----------------------------Dashboard-----------------------------
 
 function ehed:InitializeDashboard()
 		self:CreateFrames()
-        HousingDashboardFrame.HouseInfoContent.ContentFrame:HookScript("OnUpdate", function() ehed:UpdateCurrentProgressText() end)
+        HousingDashboardFrame.HouseInfoContent.ContentFrame:HookScript("OnUpdate", function() ehed:UpdateFrames() end)
+        HousingDashboardFrame.HouseInfoContent.ContentFrame.InitiativesFrame.InitiativeSetFrame.InitiativeActiveNeighborhoodSwitcher.SwitchActiveNeighborhoodBtn:HookScript("OnClick",function () ehed:UpdateFrames() end)
 end
 function ehed:CreateFrames ()
     if not self.areFramesCreated and HousingDashboardFrame then
+        local artFrame = HousingDashboardFrame.HouseInfoContent.ContentFrame.InitiativesFrame.InitiativesArt
         local isFrame = HousingDashboardFrame.HouseInfoContent.ContentFrame.InitiativesFrame.InitiativeSetFrame
         local pFrame = isFrame.ProgressBar
         if pFrame then
@@ -95,38 +97,86 @@ function ehed:CreateFrames ()
             self.completionTimeFontString:SetFontObject(GameFontHighlight)
             self.completionTimeFontString:Hide()
             --Rankings
-            self.titleRankFontString = isFrame:CreateFontString("TitleRankTextString","ARTWORK")
-            self.titleRankFontString:SetPoint("TOPRIGHT", isFrame,"TOPRIGHT", -15,-8)
+            self.mouseoverRanking = CreateFrame("Frame","AllEndeavorRanks", isFrame)
+            self.mouseoverRanking:SetPoint("TOPRIGHT", isFrame, "TOPRIGHT", 0, -5)
+            self.mouseoverRanking:SetSize(170,73)
+            self.mouseoverRanking:SetScript("OnEnter", function(self, motion)  
+                if not ehed.taskRankings then return end
+                if #ehed.taskRankings <= 0 then return end
+                GameTooltip:SetOwner(self,"ANCHOR_NONE")
+                GameTooltip:ClearAllPoints()
+                GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+                GameTooltip:AddLine(shared.L["Top Contributors"])
+                for i,data in ipairs(ehed.taskRankings) do
+                    local r,g,b = 0,0,0
+                    if i == 1 then
+                        r,g,b =GetItemQualityColor(5)
+                    elseif i/#ehed.taskRankings < 0.1 then
+                        r,g,b = GetItemQualityColor(4)
+                    elseif i/#ehed.taskRankings < 0.25 then
+                        r,g,b = GetItemQualityColor(3)
+                    elseif i/#ehed.taskRankings < 0.5 then
+                        r,g,b = GetItemQualityColor(2)
+                    elseif i/#ehed.taskRankings < 0.9 then
+                        r,g,b = GetItemQualityColor(1)
+                    else
+                        r,g,b = GetItemQualityColor(0)
+                    end
+                    GameTooltip:AddDoubleLine(data.name , BreakUpLargeNumbers(data.contribution*100),r,g,b)
+                end
+                GameTooltip:Show()
+            end)
+            self.mouseoverRanking:SetScript("OnLeave", function(self, motion) 
+                GameTooltip:Hide()
+            end)
+
+            local r,g,b = 0,0,0
+            self.titleRankFontString = self.mouseoverRanking:CreateFontString("TitleRankTextString","ARTWORK")
+            self.titleRankFontString:SetPoint("TOPRIGHT", self.mouseoverRanking,"TOPRIGHT", -15,-3)
             self.titleRankFontString:SetFontObject(GameFontNormalLarge2)
             self.titleRankFontString:SetJustifyV("BOTTOM")
             self.titleRankFontString:SetText(shared.L["Top Contributors"])
 
-            self.firstRankFontString = isFrame:CreateFontString("FirstRankTextString","ARTWORK")
-            self.firstRankFontString:SetPoint("TOPRIGHT", self.titleRankFontString,"BOTTOMRIGHT",-45,-5)
+            self.firstRankFontString = self.mouseoverRanking:CreateFontString("FirstRankTextString","ARTWORK")
+            self.firstRankFontString:SetPoint("TOPRIGHT", self.titleRankFontString,"BOTTOMRIGHT",-47,-5)
             self.firstRankFontString:SetFontObject(GameFontHighlightLarge)
-            self.firstRankScore = isFrame:CreateFontString("FirstRankScore","ARTWORK")
+            self.firstRankFontString:SetText("? :")
+            self.firstRankScore = self.mouseoverRanking:CreateFontString("FirstRankScore","ARTWORK")
             self.firstRankScore:SetPoint("LEFT", self.firstRankFontString, "RIGHT",2,0)
             self.firstRankScore:SetFontObject(GameFontHighlightLarge)
-            self.firstRankScore:SetTextColor(1.0,0.5,0) --Legendary
+            self.firstRankScore:SetText("?")
+            r,g,b = GetItemQualityColor(5)
+            self.firstRankScore:SetTextColor(r,g,b) --Legendary
 
-            self.secondRankFontString = isFrame:CreateFontString("SecondRankTextString","ARTWORK")
+            self.secondRankFontString = self.mouseoverRanking:CreateFontString("SecondRankTextString","ARTWORK")
             self.secondRankFontString:SetPoint("TOPRIGHT",self.firstRankFontString, "BOTTOMRIGHT",0,-2)
             self.secondRankFontString:SetFontObject(GameFontHighlight)
-            self.secondRankScore = isFrame:CreateFontString("SecondRankScore","ARTWORK")
-            self.secondRankScore:SetPoint("LEFT", self.secondRankFontString, "RIGHT",2,0)
+            self.secondRankFontString:SetText("? :")
+            self.secondRankScore = self.mouseoverRanking:CreateFontString("SecondRankScore","ARTWORK")
+            self.secondRankScore:SetPoint("LEFT", self.secondRankFontString, "RIGHT",3,0)
             self.secondRankScore:SetFontObject(GameFontHighlight)
-            self.secondRankScore:SetTextColor(0.64,0.21,0.93) --Epic
+            self.secondRankScore:SetText("?")
+            r,g,b = GetItemQualityColor(4)
+            self.secondRankScore:SetTextColor(r,g,b) --Epic
 
-            self.thirdRankFontString = isFrame:CreateFontString("ThirdRankTextString","ARTWORK")
+            self.thirdRankFontString = self.mouseoverRanking:CreateFontString("ThirdRankTextString","ARTWORK")
             self.thirdRankFontString:SetPoint("TOPRIGHT", self.secondRankFontString,"BOTTOMRIGHT",0,-2)
             self.thirdRankFontString:SetFontObject(GameFontHighlight)
-            self.thirdRankScore = isFrame:CreateFontString("ThirdRankScore","ARTWORK")
-            self.thirdRankScore:SetPoint("LEFT", self.thirdRankFontString, "RIGHT",2,0)
+            self.thirdRankFontString:SetText("? :")
+            self.thirdRankScore = self.mouseoverRanking:CreateFontString("ThirdRankScore","ARTWORK")
+            self.thirdRankScore:SetPoint("LEFT", self.thirdRankFontString, "RIGHT",3,0)
             self.thirdRankScore:SetFontObject(GameFontHighlight)
-            self.thirdRankScore:SetTextColor(0,0.44,0.87) --Rare
+            self.thirdRankScore:SetText("?")
+            r,g,b = GetItemQualityColor(3)
+            self.thirdRankScore:SetTextColor(r,g,b) --Rare
+
+            
+            --HouseXP Label
+            self.houseXPLabel = isFrame:CreateFontString("HouseXPLabel", "ARTWORK")
+            self.houseXPLabel:SetPoint("LEFT", isFrame.InitiativesXPIcon, "RIGHT", 5,0)
+            self.houseXPLabel:SetFontObject(GameFontHighlight)
             --Activities
             local listView = isFrame.InitiativeTasks.TaskList:GetView()
-
             listView:SetElementFactory(function(factory, node)
                 local data = node:GetData();
 
@@ -149,7 +199,7 @@ function ehed:CreateFrames ()
                     end
 
                     if data.timesCompleted and data.taskType == Enum.NeighborhoodInitiativeTaskType.RepeatableInfinite then
-                        button.Title:SetText(shared.L["Repeatable Task Title"]:format(data.taskName, data.timesCompleted,ehed.taskCount[data.ID]));
+                        button.Title:SetText(shared.L["Repeatable Task Title"]:format(data.taskName, data.timesCompleted,ehed.playerTaskCount[data.ID],ehed.taskCount[data.ID]));
                     else
                         button.Title:SetText(data.taskName);
                     end
@@ -180,14 +230,20 @@ function ehed:CreateFrames ()
                     factory("HousingDashboard_InitiativeSubtaskTemplate", SubtaskInitializer);
                 end
             end)
-            
             --Make adjustments to default layout
+            --Fix top corner strata
+            artFrame.BorderArt.InitiativesCornerTL:SetParent(isFrame)
+            artFrame.BorderArt.InitiativesCornerTL:SetPoint("TOPLEFT",isFrame,"TOPLEFT",-4,2)
+            artFrame.BorderArt.InitiativesCornerTR:SetParent(isFrame)
+            artFrame.BorderArt.InitiativesCornerTR:SetPoint("TOPRIGHT",isFrame,"TOPRIGHT",4,2)
+            --small adjustments
             isFrame.InitiativeTimer:SetPoint("TOPRIGHT", isFrame,"TOPRIGHT", 25,-135)
             isFrame.InitiativeName:SetPoint("TOPLEFT", isFrame, "TOPLEFT", 25, -2)
             isFrame.ProgressBar:SetPoint("TOP", isFrame.InitiativeDescription, "BOTTOM", 0, -20)
             isFrame.NeighborhoodGroupText:SetPoint("TOP", isFrame.InitiativeDescription, "BOTTOM", 5, -58)
             pFrame.TextContainer.ProgressText:Hide()
             pFrame:SetPoint("CENTER", isFrame, "CENTER",0,0)
+
             self.areFramesCreated = true
             self:UpdateCurrentProgressText()
         end
@@ -206,7 +262,7 @@ function ehed:UpdateCurrentProgressText()
         local contribution = data.playerTotalContribution *100
         local percent
         local contributionpercent
-        if currprogress >= maxprogress then 
+        if currprogress >= maxprogress and self.completionTime then 
             currprogress = maxprogress
             local completionDate = date(shared.L["Date Format"], self.completionTime)
             self.completionTimeFontString:Show()
@@ -221,19 +277,25 @@ function ehed:UpdateCurrentProgressText()
             self.progressFontString:SetText("...")
             self.playerContributionFontString:SetText(shared.L["Your contribution"] .. ": " .. "")
         end
+        self.houseXPLabel:SetText(ENDEAVOR_XP_TOOLTIP_AVAILABLE:format(BreakUpLargeNumbers(C_NeighborhoodInitiative.GetAvailableHouseXP())))
     elseif not self.areFramesCreated and HousingDashboardFrame then
         self:CreateFrames()
     end
 end
 function ehed:ParseActivityLog()
-    local first,second,third = 0,0,0
-    local firstplayer,secondplayer,thirdplayer = "?","?","?"
+    local now = GetTime()
+    if not self.last then self.last = 0 end
+    if now < self.last + 0.5 then return end
+    self.last = now
     local ranking = {}
+    self.taskRankings = {}
     self.taskCount = {}
+    self.playerTaskCount = {}
     self.completionTime = 0
     if self.areFramesCreated then
         local actitivyLog = C_NeighborhoodInitiative.GetInitiativeActivityLogInfo()
         if actitivyLog  then
+            --Gather Task info
             for k,info in pairs(actitivyLog.taskActivity) do
                 --Add up character contributions
                 if not ranking[info.playerName] then
@@ -244,39 +306,48 @@ function ehed:ParseActivityLog()
                 if not self.taskCount[info.taskID] then
                     self.taskCount[info.taskID] = 0
                 end
+                if not self.playerTaskCount[info.taskID] then
+                    self.playerTaskCount[info.taskID] = 0
+                end
                 self.taskCount[info.taskID] = self.taskCount[info.taskID] + 1
+                if info.playerName == UnitName("player") then
+                    self.playerTaskCount[info.taskID] = self.playerTaskCount[info.taskID] + 1
+                end
                 --Get completion time
                 if info.amount and info.amount > 0 and info.completionTime and info.completionTime > self.completionTime then
                     self.completionTime = info.completionTime
                 end
             end
-            for player,contribution in pairs(ranking) do
-                if contribution  > first then 
-                    thirdplayer = secondplayer
-                    third = second
-                    secondplayer = firstplayer
-                    second = first
-                    firstplayer = player
-                    first = contribution
-                elseif contribution > second then
-                    thirdplayer = secondplayer
-                    third = second
-                    secondplayer = player
-                    second = contribution
-                elseif contribution > third then
-                    thirdplayer = player
-                    third = contribution
-                end
+            --Sort Task Info
+            for player,playerContribution in pairs(ranking) do
+                self.taskRankings[#self.taskRankings+1] = { name = player, contribution = playerContribution }
             end
-            
+            table.sort(self.taskRankings, self.SortRanks)
+        else
+            --Activity Log not available
+            self.completionTime = nil
         end
     end
-    self.firstRankFontString:SetText(firstplayer .. ":" )
-    self.secondRankFontString:SetText(secondplayer .. ":")
-    self.thirdRankFontString:SetText(thirdplayer .. ":")
-    self.firstRankScore:SetText(BreakUpLargeNumbers(first*100))
-    self.secondRankScore:SetText(BreakUpLargeNumbers(second*100))
-    self.thirdRankScore:SetText(BreakUpLargeNumbers(third*100))
+    if #self.taskRankings > 0 then
+        self.firstRankFontString:SetText(self.taskRankings[1].name .. ":" )
+        self.secondRankFontString:SetText(self.taskRankings[2].name .. ":")
+        self.thirdRankFontString:SetText(self.taskRankings[3].name .. ":")
+        self.firstRankScore:SetText(BreakUpLargeNumbers(self.taskRankings[1].contribution*100))
+        self.secondRankScore:SetText(BreakUpLargeNumbers(self.taskRankings[2].contribution*100))
+        self.thirdRankScore:SetText(BreakUpLargeNumbers(self.taskRankings[3].contribution*100))
+    else
+        self.firstRankFontString:SetText("? :" )
+        self.secondRankFontString:SetText("? :")
+        self.thirdRankFontString:SetText("? :")
+        self.firstRankScore:SetText("?")
+        self.secondRankScore:SetText("?")
+        self.thirdRankScore:SetText("?")
+    end
+end
+function ehed.SortRanks(A,B)
+    if not B then return true end
+    if not A then return false end
+    return A.contribution > B.contribution
 end
 --Copy of Blizzard's RefreshTaskList()
 -- function ehed:UpdateTaskList()

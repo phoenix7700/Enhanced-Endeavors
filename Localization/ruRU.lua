@@ -9,6 +9,6 @@ L["Loading..."] = "Загрузка..."
 L["Milestone"] = "Веха "
 L["Date Format"] = "%d/%m/%y" 
 L["Completed"] = "Завершено: "
-L["Repeatable Task Title"] = "%s |W(Вы x%d, Всего x%d )|w"
+L["Repeatable Task Title"] = "%s |n|WВы: За неделю x%d, Всего x%d,|w |WСоседи: Всего x%d|w"
 
 

@@ -9,5 +9,5 @@ L["Loading..."] = "Caricamento..."
 L["Milestone"] = "Traguardo "
 L["Date Format"] = "%d/%m/%y" 
 L["Completed"] = "Completato: "
-L["Repeatable Task Title"] = "%s |W(Tu x%d, Totale x%d )|w"
+L["Repeatable Task Title"] = "%s |n|WTu: Settimanale x%d, Totale x%d,|w |WVicini: Totale x%d|w"
 

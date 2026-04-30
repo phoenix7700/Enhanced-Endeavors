@@ -9,5 +9,5 @@ L["Loading..."] = "Cargando..."
 L["Milestone"] = "Hito "
 L["Date Format"] = "%d/%m/%y" 
 L["Completed"] = "Completado: "
-L["Repeatable Task Title"] = "%s |W(Tú x%d, Total x%d )|w"
+L["Repeatable Task Title"] = "%s |n|WTú: Semanal x%d, Total x%d,|w |WVecinos: Total x%d|w"
 
