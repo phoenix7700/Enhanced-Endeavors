@@ -327,21 +327,29 @@ function ehed:ParseActivityLog()
             --Activity Log not available
             self.completionTime = nil
         end
-    end
-    if #self.taskRankings > 0 then
-        self.firstRankFontString:SetText(self.taskRankings[1].name .. ":" )
-        self.secondRankFontString:SetText(self.taskRankings[2].name .. ":")
-        self.thirdRankFontString:SetText(self.taskRankings[3].name .. ":")
-        self.firstRankScore:SetText(BreakUpLargeNumbers(self.taskRankings[1].contribution*100))
-        self.secondRankScore:SetText(BreakUpLargeNumbers(self.taskRankings[2].contribution*100))
-        self.thirdRankScore:SetText(BreakUpLargeNumbers(self.taskRankings[3].contribution*100))
-    else
-        self.firstRankFontString:SetText("? :" )
-        self.secondRankFontString:SetText("? :")
-        self.thirdRankFontString:SetText("? :")
-        self.firstRankScore:SetText("?")
-        self.secondRankScore:SetText("?")
-        self.thirdRankScore:SetText("?")
+        
+        if self.taskRankings[1] then
+            self.firstRankFontString:SetText(self.taskRankings[1].name .. ":" )
+            self.firstRankScore:SetText(BreakUpLargeNumbers(self.taskRankings[1].contribution*100))
+        else
+            self.firstRankFontString:SetText("? :" )
+            self.firstRankScore:SetText("?")
+        end
+
+        if self.taskRankings[2] then
+            self.secondRankFontString:SetText(self.taskRankings[2].name .. ":")
+            self.secondRankScore:SetText(BreakUpLargeNumbers(self.taskRankings[2].contribution*100))
+        else
+            self.secondRankFontString:SetText("? :")
+            self.secondRankScore:SetText("?")
+        end
+        if self.taskRankings[3] then
+            self.thirdRankFontString:SetText(self.taskRankings[3].name .. ":")
+            self.thirdRankScore:SetText(BreakUpLargeNumbers(self.taskRankings[3].contribution*100))
+        else
+            self.thirdRankFontString:SetText("? :")  
+            self.thirdRankScore:SetText("?")
+        end
     end
 end
 function ehed.SortRanks(A,B)
