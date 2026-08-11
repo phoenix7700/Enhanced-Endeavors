@@ -1,4 +1,4 @@
-## Interface: 120005
+## Interface: 120100
 ## Version: 1.6
 ## IconTexture: Interface\AddOns\EnhancedEndeavors\icon.blp
 ## Title: Enhanced Endeavors
