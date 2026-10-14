@@ -110,17 +110,17 @@ function ehed:CreateFrames ()
                 for i,data in ipairs(ehed.taskRankings) do
                     local r,g,b = 0,0,0
                     if i == 1 then
-                        r,g,b =GetItemQualityColor(5)
+                        r,g,b =C_Item.GetItemQualityColor(5)
                     elseif i/#ehed.taskRankings < 0.1 then
-                        r,g,b = GetItemQualityColor(4)
+                        r,g,b = C_Item.GetItemQualityColor(4)
                     elseif i/#ehed.taskRankings < 0.25 then
-                        r,g,b = GetItemQualityColor(3)
+                        r,g,b = C_Item.GetItemQualityColor(3)
                     elseif i/#ehed.taskRankings < 0.5 then
-                        r,g,b = GetItemQualityColor(2)
+                        r,g,b = C_Item.GetItemQualityColor(2)
                     elseif i/#ehed.taskRankings < 0.9 then
-                        r,g,b = GetItemQualityColor(1)
+                        r,g,b = C_Item.GetItemQualityColor(1)
                     else
-                        r,g,b = GetItemQualityColor(0)
+                        r,g,b = C_Item.GetItemQualityColor(0)
                     end
                     GameTooltip:AddDoubleLine(data.name , BreakUpLargeNumbers(data.contribution*100),r,g,b)
                 end
@@ -145,7 +145,7 @@ function ehed:CreateFrames ()
             self.firstRankScore:SetPoint("LEFT", self.firstRankFontString, "RIGHT",2,0)
             self.firstRankScore:SetFontObject(GameFontHighlightLarge)
             self.firstRankScore:SetText("?")
-            r,g,b = GetItemQualityColor(5)
+            r,g,b = C_Item.GetItemQualityColor(5)
             self.firstRankScore:SetTextColor(r,g,b) --Legendary
 
             self.secondRankFontString = self.mouseoverRanking:CreateFontString("SecondRankTextString","ARTWORK")
@@ -156,7 +156,7 @@ function ehed:CreateFrames ()
             self.secondRankScore:SetPoint("LEFT", self.secondRankFontString, "RIGHT",3,0)
             self.secondRankScore:SetFontObject(GameFontHighlight)
             self.secondRankScore:SetText("?")
-            r,g,b = GetItemQualityColor(4)
+            r,g,b = C_Item.GetItemQualityColor(4)
             self.secondRankScore:SetTextColor(r,g,b) --Epic
 
             self.thirdRankFontString = self.mouseoverRanking:CreateFontString("ThirdRankTextString","ARTWORK")
@@ -167,7 +167,7 @@ function ehed:CreateFrames ()
             self.thirdRankScore:SetPoint("LEFT", self.thirdRankFontString, "RIGHT",3,0)
             self.thirdRankScore:SetFontObject(GameFontHighlight)
             self.thirdRankScore:SetText("?")
-            r,g,b = GetItemQualityColor(3)
+            r,g,b = C_Item.GetItemQualityColor(3)
             self.thirdRankScore:SetTextColor(r,g,b) --Rare
 
             
